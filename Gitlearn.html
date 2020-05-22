@@ -1,0 +1,567 @@
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <h1>Git常用命令及方法大全</h1>
+<p><a href="https://blog.csdn.net/web_csdn_share/article/details/79243308">https://blog.csdn.net/web_csdn_share/article/details/79243308</a></p>
+<p>&nbsp;</p>
+<blockquote>
+<p>&nbsp;</p>
+<p><img class="has" src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015120901.png" alt=""></p>
+<p>下面是我整理的常用 Git 命令清单。几个专用名词的译名如下。</p>
+<blockquote>
+<ul>
+Workspace：工作区</br>
+Index / Stage：暂存区</br>
+Repository：仓库区（或本地仓库）</br>
+Remote：远程仓库
+</ul>
+</blockquote>
+本地分支关联远程：git branch --set-upstream-to=origin/beta beta</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><a name="t1"></a>一、新建代码库</h2>
+<blockquote>
+<ol class="hljs-ln">
+
+<div><span class="hljs-comment"># 在当前目录新建一个Git代码库</span></div>
+<div >$ git init</div>
+
+<div ><span class="hljs-comment"># 新建一个目录，将其初始化为Git代码库</span></div>
+<div >$ git init [project-name]</div>
+
+<div ><span class="hljs-comment"># 下载一个项目和它的整个代码历史</span></div><div >$ git <span class="hljs-built_in">clone [url]</span></div>
+</ol>
+</blockquote>
+<h2><a name="t2"></a>二、配置</h2>
+<p>&nbsp;</p>
+<p>Git的设置文件为<code>.gitconfig</code>，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 显示当前的Git配置</span></div>
+<div >$ git config --list</div>
+
+<div ><span class="hljs-comment"># 编辑Git配置文件</span></div>
+<div >$ git config -e [--global]</div>
+
+<div ><span class="hljs-comment"># 设置提交代码时的用户信息</span></div>
+<div >$ git config [--global] user.name <span class="hljs-string">"[name]"</span></div>
+<div >$ git config [--global] user.email <span class="hljs-string">"[email address]"</span></div>
+
+</ol></blockquote>
+<h2><a name="t3"></a>三、增加/删除文件</h2>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 添加指定文件到暂存区</span></div>
+<div >$ git add [file1] [file2] ...</div>
+
+<div ><span class="hljs-comment"># 添加指定目录到暂存区，包括子目录</span></div>
+<div >$ git add [dir]</div>
+
+
+<div ><span class="hljs-comment"># 添加当前目录的所有文件到暂存区</span></div>
+<div >$ git add .</div>
+
+
+<div ><span class="hljs-comment"># 添加每个变化前，都会要求确认</span></div>
+<div ><span class="hljs-comment"># 对于同一个文件的多处变化，可以实现分次提交</span></div>
+<div >$ git add -p</div>
+
+<div ><span class="hljs-comment"># 删除工作区文件，并且将这次删除放入暂存区</span></div>
+<div >$ git rm [file1] [file2] ...</div>
+
+<div ><span class="hljs-comment"># 停止追踪指定文件，但该文件会保留在工作区</span></div>
+<div >$ git rm --cached [file]</div>
+
+<div ><span class="hljs-comment"># 改名文件，并且将这个改名放入暂存区</span></div>
+<div >$ git mv [file-original] [file-renamed]</div>
+</ol>
+</blockquote>
+<h2><a name="t4"></a>四、代码提交</h2>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 提交暂存区到仓库区</span></div>
+<div >$ git commit -m [message]</div>
+
+<div ><span class="hljs-comment"># 提交暂存区的指定文件到仓库区</span></div>
+<div >$ git commit [file1] [file2] ... -m [message]</div>
+
+<div ><span class="hljs-comment"># 提交工作区自上次commit之后的变化，直接到仓库区</span></div>
+<div >$ git commit -a</div>
+
+<div ><span class="hljs-comment"># 提交时显示所有diff信息</span></div>
+<div >$ git commit -v</div>
+
+<div ><span class="hljs-comment"># 使用一次新的commit，替代上一次提交</span></div>
+<div ><span class="hljs-comment"># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</span></div>
+<div >$ git commit --amend -m [message]</div>
+
+
+<div ><span class="hljs-comment"># 重做上一次commit，并包括指定文件的新变化</span></div>
+<div >$ git commit --amend [file1] [file2] ...</div>
+</ol>
+</blockquote>
+<h2><a name="t5"></a>五、分支</h2>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 列出所有本地分支</span></div>
+<div >$ git branch</div>
+
+<div ><span class="hljs-comment"># 列出所有远程分支</span></div>
+<div >$ git branch -r</div>
+
+<div ><span class="hljs-comment"># 列出所有本地分支和远程分支</span></div>
+<div >$ git branch -a</div>
+
+<div ><span class="hljs-comment"># 新建一个分支，但依然停留在当前分支</span></div>
+<div >$ git branch [branch-name]</div>
+
+<div ><span class="hljs-comment"># 新建一个分支，并切换到该分支</span></div>
+<div >$ git checkout -b [branch]</div>
+
+<div ><span class="hljs-comment"># 新建一个分支，指向指定commit</span></div>
+<div >$ git branch [branch] [commit]</div>
+
+<div ><span class="hljs-comment"># 新建一个分支，与指定的远程分支建立追踪关系</span></div>
+<div >$ git branch --track [branch] [remote-branch]</div>
+
+<div ><span class="hljs-comment"># 切换到指定分支，并更新工作区</span></div>
+<div >$ git checkout [branch-name]</div>
+
+<div ><span class="hljs-comment"># 切换到上一个分支</span></div>
+<div >$ git checkout -</div>
+
+<div ><span class="hljs-comment"># 建立追踪关系，在现有分支与指定的远程分支之间</span></div>
+<div >$ git branch --<span class="hljs-built_in">set-upstream [branch] [remote-branch]</span></div>
+
+<div ><span class="hljs-comment"># 合并指定分支到当前分支</span></div>
+<div >$ git merge [branch]</div>
+
+<div ><span class="hljs-comment"># 选择一个commit，合并进当前分支</span></div>
+<div >$ git cherry-pick [commit]</div>
+
+<div ><span class="hljs-comment"># 删除分支</span></div>
+<div >$ git branch -d [branch-name]</div>
+
+<div ><span class="hljs-comment"># 删除远程分支</span></div>
+<div >$ git push origin --delete [branch-name]</div>
+<div >$ git branch -dr [remote/branch]</div>
+</ol>
+</blockquote>
+<h2><a name="t6"></a>六、标签</h2>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 列出所有tag</span></div>
+<div >$ git tag</div>
+
+<div ><span class="hljs-comment"># 新建一个tag在当前commit</span></div>
+<div >$ git tag [tag]</div>
+
+<div ><span class="hljs-comment"># 新建一个tag在指定commit</span></div>
+<div >$ git tag [tag] [commit]</div>
+
+<div ><span class="hljs-comment"># 删除本地tag</span></div>
+<div >$ git tag -d [tag]</div>
+
+<div ><span class="hljs-comment"># 删除远程tag</span></div>
+<div >$ git push origin :refs/tags/[tagName]</div>
+
+<div ><span class="hljs-comment"># 查看tag信息</span></div>
+<div >$ git show [tag]</div>
+
+<div ><span class="hljs-comment"># 提交指定tag</span></div>
+<div >$ git push [remote] [tag]</div>
+
+<div ><span class="hljs-comment"># 提交所有tag</span></div>
+<div >$ git push [remote] --tags</div>
+
+<div ><span class="hljs-comment"># 新建一个分支，指向某个tag</span></div>
+<div >$ git checkout -b [branch] [tag]</div>
+</ol>
+</blockquote>
+<h2><a name="t7"></a>七、查看信息</h2>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 显示有变更的文件</span></div>
+<div >$ git status</div>
+
+<div ><span class="hljs-comment"># 显示当前分支的版本历史</span></div>
+<div >$ git <span class="hljs-built_in">log</span></div>
+
+<div ><span class="hljs-comment"># 显示commit历史，以及每次commit发生变更的文件</span></div>
+<div >$ git <span class="hljs-built_in">log --<span class="hljs-built_in">stat</span></span></div>
+
+<div ><span class="hljs-comment"># 搜索提交历史，根据关键词</span></div>
+<div >$ git <span class="hljs-built_in">log -S [keyword]</span></div>
+
+<div ><span class="hljs-comment"># 显示某个commit之后的所有变动，每个commit占据一行</span></div>
+<div >$ git <span class="hljs-built_in">log [tag] HEAD --pretty=format:%s</span></div>
+
+<div ><span class="hljs-comment"># 显示某个commit之后的所有变动，其"提交说明"必须符合搜索条件</span></div>
+<div >$ git <span class="hljs-built_in">log [tag] HEAD --grep feature</span></div>
+
+<div ><span class="hljs-comment"># 显示某个文件的版本历史，包括文件改名</span></div>
+<div >$ git <span class="hljs-built_in">log --follow [file]</span></div>
+<div >$ git whatchanged [file]</div>
+
+<div ><span class="hljs-comment"># 显示指定文件相关的每一次diff</span></div>
+<div >$ git <span class="hljs-built_in">log -p [file]</span></div>
+
+<div ><span class="hljs-comment"># 显示过去5次提交</span></div>
+<div >$ git <span class="hljs-built_in">log -5 --pretty --oneline</span></div>
+
+<div ><span class="hljs-comment"># 显示所有提交过的用户，按提交次数排序</span></div>
+<div >$ git shortlog -sn</div>
+
+<div ><span class="hljs-comment"># 显示指定文件是什么人在什么时间修改过</span></div>
+<div >$ git blame [file]</div>
+
+<div ><span class="hljs-comment"># 显示暂存区和工作区的差异</span></div>
+<div >$ git diff</div>
+
+<div ><span class="hljs-comment"># 显示暂存区和上一个commit的差异</span></div>
+<div >$ git diff --cached [file]</div>
+
+<div ><span class="hljs-comment"># 显示工作区与当前分支最新commit之间的差异</span></div>
+<div >$ git diff HEAD</div>
+
+<div ><span class="hljs-comment"># 显示两次提交之间的差异</span></div>
+<div >$ git diff [first-branch]...[second-branch]</div>
+
+<div ><span class="hljs-comment"># 显示今天你写了多少行代码</span></div>
+<div >$ git diff --shortstat <span class="hljs-string">"@{0 day ago}"</span></div>
+
+<div ><span class="hljs-comment"># 显示某次提交的元数据和内容变化</span></div>
+<div >$ git show [commit]</div>
+
+<div ><span class="hljs-comment"># 显示某次提交发生变化的文件</span></div>
+<div >$ git show --name-only [commit]</div>
+
+<div ><span class="hljs-comment"># 显示某次提交时，某个文件的内容</span></div>
+<div >$ git show [commit]:[filename]</div>
+
+<div ><span class="hljs-comment"># 显示当前分支的最近几次提交</span></div>
+<div >$ git reflog</div>
+</ol>
+</blockquote>
+<h2><a name="t8">
+</a>八、远程同步</h2>
+<blockquote><ol class="hljs-ln">
+<div ><span class="hljs-comment"># 下载远程仓库的所有变动</span></div>
+<div >$ git fetch [remote]</div>
+
+<div ><span class="hljs-comment"># 显示所有远程仓库</span></div>
+<div >$ git remote -v</div>
+
+<div ><span class="hljs-comment"># 显示某个远程仓库的信息</span></div>
+<div >$ git remote show [remote]</div>
+
+<div ><span class="hljs-comment"># 增加一个新的远程仓库，并命名</span></div>
+<div >$ git remote add [shortname] [url]</div>
+
+<div ><span class="hljs-comment"># 取回远程仓库的变化，并与本地分支合并</span></div>
+<div >$ git pull [remote] [branch]</div>
+
+<div ><span class="hljs-comment"># 上传本地指定分支到远程仓库</span></div>
+<div >$ git push [remote] [branch]</div>
+
+<div ><span class="hljs-comment"># 强行推送当前分支到远程仓库，即使有冲突</span></div>
+<div >$ git push [remote] --force</div>
+
+<div ><span class="hljs-comment"># 推送所有分支到远程仓库</span></div>
+<div >$ git push [remote] --all</div>
+</ol></blockquote>
+<h2><a name="t9"></a>九、撤销</h2>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 恢复暂存区的指定文件到工作区</span></div>
+<div >$ git checkout [file]</div>
+
+<div ><span class="hljs-comment"># 恢复某个commit的指定文件到暂存区和工作区</span></div>
+<div >$ git checkout [commit] [file]</div>
+
+<div ><span class="hljs-comment"># 恢复暂存区的所有文件到工作区</span></div>
+<div >$ git checkout .</div>
+
+<div ><span class="hljs-comment"># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</span></div>
+<div >$ git reset [file]</div>
+
+<div ><span class="hljs-comment"># 重置暂存区与工作区，与上一次commit保持一致</span></div>
+<div >$ git reset --hard</div>
+
+<div ><span class="hljs-comment"># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</span></div>
+<div >$ git reset [commit]</div>
+
+<div ><span class="hljs-comment"># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</span></div>
+<div >$ git reset --hard [commit]</div>
+
+<div ><span class="hljs-comment"># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</span></div>
+<div >$ git reset --keep [commit]</div>
+
+<div ><span class="hljs-comment"># 新建一个commit，用来撤销指定commit</span></div>
+<div ><span class="hljs-comment"># 后者的所有变化都将被前者抵消，并且应用到当前分支</span></div>
+<div >$ git revert [commit]</div>
+
+<div ><span class="hljs-comment"># 暂时将未提交的变化移除，稍后再移入</span></div>
+<div >$ git stash</div>
+<div >$ git stash pop</div>
+</ol></blockquote>
+<h2><a name="t10"></a>十、其他</h2>
+<blockquote><ol class="hljs-ln">
+
+<div ><span class="hljs-comment"># 生成一个可供发布的压缩包</span></div>
+<div >$ git archive</div>
+</ol></blockquote>
+<h1><a name="t11"></a>Git分支管理策略</h1>
+<p>&nbsp;</p>
+<p>一、主分支Master</p>
+<p>首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。</p>
+<p><img class="has" src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070503.png" alt=""></p>
+<p>Git主分支的名字，默认叫做Master。它是自动建立的，版本库初始化以后，默认就是在主分支在进行开发。</p>
+<p>二、开发分支Develop</p>
+<p>主分支只用来分布重大版本，日常开发应该在另一条分支上完成。我们把开发用的分支，叫做Develop。</p>
+<p><img class="has" src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070504.png" alt=""></p>
+<p>这个分支可以用来生成代码的最新隔夜版本（nightly）。如果想正式对外发布，就在Master分支上，对Develop分支进行"合并"（merge）。</p>
+<p>Git创建Develop分支的命令：</p>
+<blockquote>
+<p>　　git checkout -b develop master</p>
+</blockquote>
+<p>将Develop分支发布到Master分支的命令：</p>
+<blockquote>
+<p>　　# 切换到Master分支<br>　　git checkout master</p>
+<p>　　# 对Develop分支进行合并<br>　　git merge --no-ff develop</p>
+
+
+</blockquote>
+<p>这里稍微解释一下，上一条命令的--no-ff参数是什么意思。默认情况下，Git执行"快进式合并"（fast-farward merge），会直接将Master分支指向Develop分支。</p>
+<p><img class="has" src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070505.png" alt=""></p>
+<p>使用--no-ff参数后，会执行正常合并，在Master分支上生成一个新节点。为了保证版本演进的清晰，我们希望采用这种做法。关于合并的更多解释，请参考Benjamin Sandofsky的<a href="http://sandofsky.com/blog/git-workflow.html" rel="nofollow">《Understanding the Git Workflow》</a>。</p>
+<p><img class="has" src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070506.png" alt=""></p>
+<p>三、临时性分支</p>
+<p>前面讲到版本库的两条主要分支：Master和Develop。前者用于正式发布，后者用于日常开发。其实，常设分支只需要这两条就够了，不需要其他了。</p>
+<p>但是，除了常设分支以外，还有一些临时性分支，用于应对一些特定目的的版本开发。临时性分支主要有三种：</p>
+<blockquote>
+<p>　　* 功能（feature）分支</p>
+<p>　　* 预发布（release）分支</p>
+<p>　　* 修补bug（fixbug）分支</p>
+
+
+</blockquote>
+<p>这三种分支都属于临时性需要，使用完以后，应该删除，使得代码库的常设分支始终只有Master和Develop。</p>
+<p>四、 功能分支</p>
+<p>接下来，一个个来看这三种"临时性分支"。</p>
+<p>第一种是功能分支，它是为了开发某种特定功能，从Develop分支上面分出来的。开发完成后，要再并入Develop。</p>
+<p><img class="has" src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070507.png" alt=""></p>
+<p>功能分支的名字，可以采用feature-*的形式命名。</p>
+<p>创建一个功能分支：</p>
+<blockquote>
+<p>　　git checkout -b feature-x develop</p>
+
+</blockquote>
+<p>开发完成后，将功能分支合并到develop分支：</p>
+<blockquote>
+<p>　　git checkout develop</p>
+<p>　　git merge --no-ff feature-x</p>
+
+
+</blockquote>
+<p>删除feature分支：</p>
+<blockquote>
+<p>　　git branch -d feature-x</p>
+
+</blockquote>
+<p>五、预发布分支</p>
+<p>第二种是预发布分支，它是指发布正式版本之前（即合并到Master分支之前），我们可能需要有一个预发布的版本进行测试。</p>
+<p>预发布分支是从Develop分支上面分出来的，预发布结束以后，必须合并进Develop和Master分支。它的命名，可以采用release-*的形式。</p>
+<p>创建一个预发布分支：</p>
+<blockquote>
+<p>　　git checkout -b release-1.2 develop</p>
+
+</blockquote>
+<p>确认没有问题后，合并到master分支：</p>
+<blockquote>
+<p>　　git checkout master</p>
+<p>　　git merge --no-ff release-1.2</p>
+<p>　　# 对合并生成的新节点，做一个标签<br>　　git tag -a 1.2</p>
+
+</blockquote>
+<p>再合并到develop分支：</p>
+<blockquote>
+<p>　　git checkout develop</p>
+<p>　　git merge --no-ff release-1.2</p>
+
+</blockquote>
+<p>最后，删除预发布分支：</p>
+<blockquote>
+<p>　　git branch -d release-1.2</p>
+
+</blockquote>
+<p>六、修补bug分支</p>
+<p>最后一种是修补bug分支。软件正式发布以后，难免会出现bug。这时就需要创建一个分支，进行bug修补。</p>
+<p>修补bug分支是从Master分支上面分出来的。修补结束以后，再合并进Master和Develop分支。它的命名，可以采用fixbug-*的形式。</p>
+<p><img class="has" src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070508.png" alt=""></p>
+<p>创建一个修补bug分支：</p>
+<blockquote>
+<p>　　git checkout -b fixbug-0.1 master</p>
+
+</blockquote>
+<p>修补结束后，合并到master分支：</p>
+<blockquote>
+<p>　　git checkout master</p>
+<p>　　git merge --no-ff fixbug-0.1</p>
+<p>　　git tag -a 0.1.1</p>
+
+</blockquote>
+<p>再合并到develop分支：</p>
+<blockquote>
+<p>　　git checkout develop</p>
+<p>　　git merge --no-ff fixbug-0.1</p>
+
+</blockquote>
+<p>最后，删除"修补bug分支"：</p>
+<blockquote>
+<p>　　git branch -d fixbug-0.1</p>
+
+</blockquote>
+<p>&nbsp;</p>
+<h1><a name="t12"></a>版本回退-撤销文件修改</h1>
+<p>{针对文件修改恢复}</p>
+<h2><a name="t13"></a>工作区修改一个文件后，又想回到修改前(git add前)</h2>
+<p>1. 当然可以直接手动再在工作区中将文件修改回去</p>
+<p>2. 修改后，通过命令git status查看</p>
+<ol class="hljs-ln">
+
+<div >$ git status</div>
+</div>
+<div ># On branch master</div>
+
+</div>
+<div ># Changes not staged for commit:</div>
+</div>
+<div >#   (use "git add <span class="hljs-tag">&lt;<span class="hljs-name">file&gt;..." to update what will be committed)</span></span></div>
+</div>
+<div >#   (use "git checkout -- <span class="hljs-tag">&lt;<span class="hljs-name">file&gt;..." to discard changes in working directory)</span></span></div>
+</div>
+<div >#</div>
+</div>
+<div >#       modified:   readme.txt</div>
+</div>
+<div >#</div>
+</div>
+<div >no changes added to commit (use "git add" and/or "git commit -a")</div>
+</div>
+
+</ol>
+<p>这时Git会告诉你，git checkout -- file可以丢弃工作区的修改：</p>
+<pre><code class="language-html hljs xml">$ git checkout -- readme.txt
+</code></pre>
+<p>Note:</p>
+<p>1.&nbsp;git checkout -- file命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令，我们在后面的分支管理中会再次遇到git checkout命令。</p>
+<p>2. 命令git checkout -- readme.txt意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：</p>
+<p>一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。总之，就是让这个文件回到最近一次git commit或git add时的状态。</p>
+<p>3.&nbsp;工作区、暂存区的概念不清楚的可见于<a href="http://blog.csdn.net/pipisorry/article/details/44588351" rel="nofollow">Git版本控制教程 - Git本地仓库</a></p>
+<h2><a name="t14"></a>如果在工作区中修改了文件还git add到暂存区（但是在commit之前）</h2>
+<p>用git status查看一下，修改只是添加到了暂存区，还没有提交：</p>
+<ol class="hljs-ln">
+
+<div >$ git status</div>
+<div ># On branch master</div>
+<div ># Changes to be committed:</div>
+<div ># (use "git reset HEAD <span class="hljs-tag">&lt;<span class="hljs-name">file&gt;..." to unstage)</span></span></div>
+<div >#</div>
+<div ># modified: readme.txt</div>
+<div >#</div>
+</ol>
+<p>Git同样告诉我们，用命令git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区：</p>
+<ol class="hljs-ln">
+<div >$ git reset HEAD readme.txt</div>
+<div >Unstaged changes after reset:</div>
+<div >M readme.txt</div>
+</ol>
+<p>git reset命令既可以回退版本，也可以把暂存区的修改回退到工作区。当我们用HEAD时，表示最新的版本。</p>
+<p>再用git status查看一下，现在暂存区是干净的，工作区有修改。</p>
+<p>然后丢弃工作区的修改</p>
+<ol class="hljs-ln">
+
+<div >$ git checkout -- readme.txt</div>
+<div >$ git status</div>
+<div ># On branch master</div>
+<div >nothing to commit (working directory clean)</div>
+</ol>
+<h2><a name="t15"></a>不但修改了文件还从暂存区提交commit到了版本库 - 版本回退</h2>
+<p>版本回退可以回退到上一个版本。不过，这是有条件的，就是你还没有把自己的本地版本库推送到远程。Git是分布式版本控制系统。</p>
+<p>在工作中对某个文件（如readme.txt）进行多次修改交commit。</p>
+<p>可以通过版本控制系统命令告诉我们提交的历史记录，在Git中，我们用git log命令查看：</p>
+<ol class="hljs-ln">
+
+<div >$ git log</div>
+<div >commit 3628164fb26d48395383f8f31179f24e0882e1e0</div>
+<div >Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+<div >Date: Tue Aug 20 15:11:49 2013 +0800</div>
+<div >append GPL</div>
+<div >commit ea34578d5496d7dd233c827ed32a8cd576c5ee85</div>
+<div >Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+<div >Date: Tue Aug 20 14:53:12 2013 +0800</div>
+<div >add distributed</div>
+<div >commit cb926e7ea50ad11b8f9e909c05226233bf755030</div>
+<div >Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+<div >Date: Mon Aug 19 17:51:55 2013 +0800</div>
+<div >wrote a readme file</div>
+</ol>
+<p>Note:</p>
+<p>1.&nbsp;git log命令显示从最近到最远的提交日志，我们可以看到3次提交，最近的一次是append GPL，上一次是add distributed，最早的一次是wrote a readme file。</p>
+<p>2. 如果嫌输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数：</p>
+<ol class="hljs-ln">
+<div >$ git log --pretty=oneline</div>
+<div >3628164fb26d48395383f8f31179f24e0882e1e0 append GPL</div>
+<div >ea34578d5496d7dd233c827ed32a8cd576c5ee85 add distributed</div>
+<div >cb926e7ea50ad11b8f9e909c05226233bf755030 wrote a readme file</div>
+</ol>
+<p>3.&nbsp;你看到的一大串类似3628164...882e1e0的是commit id（版本号），和SVN不一样，Git的commit id不是1，2，3……递增的数字，而是一个SHA1计算出来的一个非常大的数字，用十六进制表示，而且你看到的commit id和我的肯定不一样，以你自己的为准。为什么commit id需要用这么一大串数字表示呢？因为Git是分布式的版本控制系统，后面我们还要研究多人在同一个版本库里工作，如果大家都用1，2，3……作为版本号，那肯定就冲突了。</p>
+<p>4.&nbsp;每提交一个新版本，实际上Git就会把它们自动串成一条时间线。如果使用可视化工具（如GitX、github的客户端、pycharm）查看Git历史，就可以更清楚地看到提交历史的时间线。0</p>
+<h3><a name="t16"></a>现在我们想要把readme.txt回退到上一个版本</h3>
+<p>如“add distributed”的那个版本，怎么做呢？首先，Git必须知道当前版本是哪个版本，在Git中，用HEAD表示当前版本，也就是最新的提交3628164...882e1e0（注意我的提交ID和你的肯定不一样），上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。</p>
+<p>现在，我们要把当前版本“append GPL”回退到上一个版本“add distributed”，就可以使用git reset命令：</p>
+<ol class="hljs-ln">
+
+<div >$ git <span class="hljs-keyword">re<span class="hljs-keyword">set <span class="hljs-comment">--hard HEAD^</span></span></span></div>
+<div ><span class="hljs-keyword">HEAD <span class="hljs-keyword">is <span class="hljs-keyword">now <span class="hljs-keyword">at ea34578 <span class="hljs-keyword">add <span class="hljs-keyword">distributed</span></span></span></span></span></span></div>
+</ol>
+<p>这时readme.txt的内容就成了版本add distributed</p>
+<p>我们用git log再看看现在版本库的状态：</p>
+<ol class="hljs-ln">
+
+<div >$ git log</div>
+<div >commit ea34578d5496d7dd233c827ed32a8cd576c5ee85</div>
+<div >Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+<div >Date: Tue Aug 20 14:53:12 2013 +0800</div>
+<div >add distributed</div>
+<div >commit cb926e7ea50ad11b8f9e909c05226233bf755030</div>
+<div >Author: Michael Liao <span class="hljs-tag">&lt;<span class="hljs-name">askxuefeng@gmail.com&gt;</span></span></div>
+<div >Date: Mon Aug 19 17:51:55 2013 +0800</div>
+<div >wrote a readme file</div>
+</ol>
+<p>最新的那个版本append GPL已经看不到了！</p>
+<h2><a name="t17"></a>恢复文件后，要是我们又想回到修改后的文件呢？（命令行窗口还没有被关掉）</h2>
+<p>{这个是git reset --hard后，又反悔了，想回到修改后的状态}</p>
+<p>只要上面的命令行窗口还没有被关掉，你就可以顺着往上找啊找啊，找到那个append GPL的commit id是3628164...，于是就可以指定回到未来的某个版本：</p>
+<ol class="hljs-ln">
+<div >$ git reset --hard 3628164</div>
+<div >HEAD is now at 3628164 append GPL</div>
+</ol>
+<p>版本号没必要写全，前几位就可以了，Git会自动去找。</p>
+<p>Git的版本回退速度非常快，因为Git在内部有个指向当前版本的HEAD指针，当你回退版本的时候，Git仅仅是把HEAD从指向append GPL：</p>
+<p><img class="has" src="https://img-blog.csdn.net/20150824103212235?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="git-head" width="235" height="162"></p>
+<p>改为指向add distributed：</p>
+<p><img class="has" src="https://img-blog.csdn.net/20150824103242645?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="git-head-move" width="235" height="162"></p>
+<p>然后顺便把工作区的文件更新了。所以你让HEAD指向哪个版本号，你就把当前版本定位在哪。</p>
+<h2><a name="t18"></a>恢复文件后，要是我们又想回到修改后的文件呢？（命令行窗口早就关掉了）</h2>
+<p>{这个是git reset --hard后，又反悔了，想回到修改后的状态}</p>
+<p>想恢复到新版本怎么办？找不到新版本的commit id怎么办？当你用$ git reset --hard HEAD^回退到add distributed版本时，再想恢复到append GPL，就必须找到append GPL的commit id。</p>
+<p>Git提供了一个命令git reflog用来记录你的每一次命令：[<a href="http://blog.csdn.net/pipisorry/article/details/50669350" rel="nofollow">Git高级教程</a>:git log与git reflog]</p>
+<ol class="hljs-ln">
+<div >$ git reflog</div>
+<div >ea34578 HEAD@{0}: reset: moving to HEAD^</div>
+<div >3628164 HEAD@{1}: commit: append GPL</div>
+<div >ea34578 HEAD@{2}: commit: add distributed</div>
+<div >cb926e7 HEAD@{3}: commit (initial): wrote a readme file</div>
+</ol>
+<p>第二行显示append GPL的commit id是3628164，现在，你又可以乘坐时光机回到未来了。</p>
+</div>
