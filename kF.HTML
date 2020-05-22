@@ -24,6 +24,7 @@
 下图单位是bit,非字节 1B=8bit<br>
 <img src="https://img-blog.csdnimg.cn/20190714224935794.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzQ5NTM5MA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
 <img src="https://img-blog.csdnimg.cn/2019070816463366.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzQ5NTM5MA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+
 <strong>2.String能被继承吗？为什么？</strong><br>
 <mark>不可以</mark>，因为String类有<mark>final</mark>修饰符，而final修饰的类是不能被继承的，实现细节不允许改变。平常我们定义的String str=”abc”(直接赋一个字面量);其实和String str=new String(“abc”)(通过构造器构造)还是有差异的。<br>
 <img src="https://img-blog.csdnimg.cn/20200412234359327.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzQ5NTM5MA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
@@ -54,9 +55,10 @@ ArrayList和LinkedList都实现了List接口，有以下的不同点：<br>
 1、<mark>ArrayList</mark>是基于索引的数据接口，它的底层是<mark>数组</mark>。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，<mark>LinkedList</mark>是以<mark>元素列表</mark>的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。<br>
 2、相对于ArrayList，<mark>LinkedList的插入，添加，删除操作速度更快</mark>，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。<br>
 3、<mark>LinkedList比ArrayList更占内存</mark>，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。<br>
+<strong>阅读书签</strong><br>
 <strong>5.讲讲类的实例化顺序，比如父类静态数据，构造函数，字段，子类静态数据，构造函数，字段，当 new 的时候， 他们的执行顺序。</strong><br>
 此题考察的是类加载器实例化时进行的操作步骤（加载–&gt;连接-&gt;初始化）。<br>
-父类静态代变量、<br>
+父类静态变量、<br>
 父类静态代码块、<br>
 子类静态变量、<br>
 子类静态代码块、<br>
